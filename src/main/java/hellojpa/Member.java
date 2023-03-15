@@ -1,5 +1,7 @@
 package hellojpa;
 
+import objectOrientationModeling.Team;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -24,5 +26,8 @@ public class Member {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setTeam(Team team) {
     }
 }

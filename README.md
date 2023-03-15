@@ -3,7 +3,7 @@ JPA (Java Persistence API)
 
 **_ORM은 객체와 RDB 두 기둥위에 있는 기술이다. - 김영한_
 
-#### JPA란 
+#### JPA란
 * JPA는 자바 ORM 기술에 대한  API 표준
 - ORM이란 Object Realational Mapping의 약자로 객체와 관계형 데이터베이스를 매핑해주는 것을 말함
 
@@ -11,7 +11,7 @@ JPA (Java Persistence API)
 
 **_즉 Entity Mapping만 내가 잘해준다면 쿼리문을 직접 짜는 귀찮음을 없앨 수 있다~!_**
 
-#### JPA 사용 시 장점 
+#### JPA 사용 시 장점
 1. 특정 데이터 베이스에 종속되지 않음 - *Database Dialect(방언)* 사용으로 DBMS마다 다른 SQL문법을 자동으로 처리해줌
 2. 객체지향적 프로그래밍 - 데이터베이스 설계 중심의 패러다임에서 객체지향적으로 설계가 가능함
 3. 생산성 향상 - 예를들어 테이블에 새로운 컬럼이 추가 되었을경우 해당 테이블을 사용하는 DTO 클래스의 필드도 모두 변경해야하나, JPA에서는 테이블과 매핑된 클래스에 필드만 추가한다면 쉽게 관리가 가능함.
@@ -27,7 +27,7 @@ JPA (Java Persistence API)
 	- DB Isolation Level이 Read Commitdㅣ어도 어플리케이션에서 Repeatable Read를 보장함
 2. 트랜잭션을 지원하는 쓰기 지연(transactional write-behind)
 	1) INSERT
-		- 트랜잭션을 커밋하기 전까지 INSERT SQL을 모아놓음 
+		- 트랜잭션을 커밋하기 전까지 INSERT SQL을 모아놓음
 		- JDBC BATCH SQL 기능을 사용해서 한번에 SQL 전송 -> *커밋시 한번에 쿼리문 발사!
 	2) UPDATE
 		- UPDATE, DELETE로 인한 로우(ROW)락 시간 최소화!
@@ -60,13 +60,13 @@ JPA (Java Persistence API)
 
 ##### 엔티티의 생명주기
 - 비영속 (new/transient)
-	영속성 컨텍스트와 전혀 관계가 *없는* 새로운 상태
+  영속성 컨텍스트와 전혀 관계가 *없는* 새로운 상태
 - 영속 (managed)
-	영속성 컨텍스트에 *관리*되는 상태
+  영속성 컨텍스트에 *관리*되는 상태
 - 준영속 (detached)
-	영속성 컨텍스트에 저장되었다가 *분리*된 상태
+  영속성 컨텍스트에 저장되었다가 *분리*된 상태
 - 삭제 (remove)
-	*삭제*된 상태
+  *삭제*된 상태
 
 ##### 영속성 컨텍스트의 이점
 1. 1차 캐시
@@ -89,9 +89,9 @@ JPA (Java Persistence API)
 
 ###### 플러시 모드 옵션
 1. entityManager.setFlushMode(FlushModeType.AUTO)
-	커밋이나 쿼리를 실행할 때 플러시 (기본값)
+   커밋이나 쿼리를 실행할 때 플러시 (기본값)
 2. entityManager.setFlushMode(FlushModeType.COMMIT)
-	커밋할 때만 플러시
+   커밋할 때만 플러시
 
 ###### 플러시는!!!
 - 영속성 컨텍스트를 비우지 않는다.
@@ -124,8 +124,8 @@ JPA (Java Persistence API)
 		- *기본 생성자 필수*(파라미터가 없는 public 또는 protected 생성자)
 		- final클래스, enum, interface, inner 클래스 사용 *X*
 		- 저장할 필드에 final 사용 *X*
-	 - 속성 정리
-		 - @Entity(name="")
+	- 속성 정리
+		- @Entity(name="")
 			- JPA에서 사용할 엔티티 이름을 저장함
 			- 기본값 : 클래스 이름을 그대로 사용(예 : Member)
 			- 같은 클래스 이름이 없으면 가급적 기본값을 사용한다.
@@ -159,11 +159,11 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 - 스테이징과 운영 서버는 validate 또는 none
 
 > DDL 생성 기능
-- 제약조건 추가 
-	ex) 회원 이름은 필수, 10자 초과X
-	@Column(nullable = false, length = 10)
+- 제약조건 추가
+  ex) 회원 이름은 필수, 10자 초과X
+  @Column(nullable = false, length = 10)
 - 유니크 제약조건 추가
-	@Table(uniqueConstraints = {@UniqueConstraint( name = "NAME_AGE_UNIQUE", columnNames = {"NAME", "AGE"} )})
+  @Table(uniqueConstraints = {@UniqueConstraint( name = "NAME_AGE_UNIQUE", columnNames = {"NAME", "AGE"} )})
 - *DDL 생성 기능은 DDL을 자동 생성할 때에만 사용되고, JPA 실행 로직에는 영향을 주지 않는다.*
 
 ###### 필드와 컬럼 매핑
@@ -176,11 +176,11 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 		- columnDefinition(DDL) - 데이터베이스 컬럼 정보를 직접 줄 수 있음 ex) varchar(100) default 'EMPTY'
 		- length(DDL) - 문자 길이 제약 조건 -- String 타입에*만* 사용한다.
 		- precision, scale(DDL) - BigDecimal 타입에서 사용함(BigInteger도 가능) / precision은 소수점을 포함한 전체 자릿수를, scale은 소수의 자릿수
- 1. @Temporal : 날짜 타입 매핑
-	 - 날짜 타입(Date, Calendar)을 매핑할 때 사용
-	 - 참고 - LocalDate, LocalDateTime은 생략 가능(최신 Hibernate에서 지원함!)
+1. @Temporal : 날짜 타입 매핑
+	- 날짜 타입(Date, Calendar)을 매핑할 때 사용
+	- 참고 - LocalDate, LocalDateTime은 생략 가능(최신 Hibernate에서 지원함!)
 	- 속성 정리
-		- value 
+		- value
 			- TemporalType.DATE : 날짜, 데이터베이스 date 타입과 매핑 ex) 2013-10-11
 			- TemporalType.TIME : 시간, 데이터베이스 time 타입과 매핑 ex) 11:11:11
 			- TemporalType.TIMESTAMP : 날짜와 시간, 데이터베이스 timestamp 타입과 매핑 ex) 2013-1011 11:11:11
@@ -206,7 +206,7 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 2. @GeneratedValue
 
 - 직접 할당시 : @Id만 사용
-- 자동 생성시 : @GeneratedValue 사용 
+- 자동 생성시 : @GeneratedValue 사용
 	- IDENTITY : 데이터베이스에 위임 ex) @GeneratedValue(strategy = GenerationType.IDENTITY)
 		- 기본 키 생성을 데이터베이스에 *위임*함
 		- 주로 MySQL, POstgreSQL, SQL Server, DB2에서 사용 -- ex) MySQL : AUTO_INCREMENT
@@ -215,7 +215,7 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 	- SEQUENCE : 데이터베이스 시퀀스 오브젝트 사용 ex) @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
 		- 데이터베이스 시퀀스는 유일한 값을 순서대로 생성하는 특별한 데이터베이스 오브젝트
 		- Oracle, PostgreSQL, DB2, H2 에서 사용 -- ex) ORACLE SEQUENCE
-		- 속성정리
+		- @SequenceGenerator 속성정리
 			- name : 식별자 생성기 이름 -- 기본값 : 필수
 			- sequenceName : 데이터베이스에 등록된 시퀀스 이름 -- 기본값 : hibernate_sequence
 			- initialValue : DDL 생성시에만 사용됨, 시퀀스 DDL을 생성할때 처음 시작하는 수를 지정함 -- 기본값 : 1
@@ -225,7 +225,7 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 		- 키 생성 전용 테이블을 하나 만들어서 데이터베이스 시퀀스를 흉내내는 전략
 		- 장점 : 모든 데이터베이스에 적용 가능
 		- 단점 : 성능이슈
-		- 속성정리
+		- @TableGenerator 속성정리
 			- name : 식별자 생성기 이름
 			- table : 키생성 테이블명
 			- pkColumnName : 시퀀스 컬럼 명
@@ -239,4 +239,45 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 
 > 권장하는 식별자 전략
 - *기본 키 제약 조건* : not null, unique, *변하면 안된다.*
+- 미래까지 위의 조건을 만족하는 자연키는 찾기 어려움.. > 대리키(대체키)를 사용하자.
 - 권장 : Long 타입 + 대체키 + 키 생성전략 사용
+-  ---- > 즉, 기본키는 auto increment나 sequence를 사용!
+
+
+## 실전 예제 - 1. 요구 사항 분석과 기본 매핑
+
+> 요구사항 분석
+- 회원은 상품을 주문할 수 있다.
+- 주문 시 여러 종류의 상품을 선택할 수 있다.
+
+> 도메인 모델 분석
+- 회원과 주문의 관계 : 회원은 여러번 주문 할 수 있다. (일대 다)
+- 주문과 상품의 관계 : 주문할 때 여러 상품 선택 가능 - 반대로 한 상품도 여러번 주문 가능 -> 주문 상품 이라는 모델을 만들어 다대다 관계를 일대다, 다대일 관계로 풀어냄
+
+> 테이블 설계
+![[스크린샷 2023-03-13 오후 1.31.55.png]]
+
+> 데이터 중심 설계의 문제점!!!
+- 위의 방식은 객체 설계를 테이블 설계에 맞춘 방식이야.
+- 테이블의 외래키를 객체에 그대로 가져옴
+- 객체 그래프 탐색이 *불가능*
+- 참조가 없으므로 UML도 잘못됨.
+
+### 연관관계 매핑 기초
+> 목표
+- 객체와 테이블 연관관계의 차이를 이해하자.
+- 객체의 참조와 테이블의 외래 키 매핑
+- 용어 이해
+	- 방향(Direction) : 단방향, 양방향
+	- 다중성(Multiplicity): 다대일 (N:1), 일대다 (1:N), 일대일 (1:1), 다대다 (N:N) 이해
+	- 연관관계의 주인(Owner) : 객체 양방향 연관관계는 관리 주인이 필요함.
+
+> 연관관계가 필요한 이유
+
+객체를 테이블에 맞춰 데이터 중심으로 모델링 하면, 협력 관계를 만들 수 없다.
+- 테이블은 외래키로 조인을 사용해서 연관된 테이블을 찾는다.
+- 객체는 참조를 사용해서 연관된 객체를 찾는다.
+- 테이블과 객체 사이에는 이런 큰 간격이 있다.
+
+
+##### 양방향 연관관계와 연관관계의 주인(중요!)
