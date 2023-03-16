@@ -255,7 +255,15 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 - 주문과 상품의 관계 : 주문할 때 여러 상품 선택 가능 - 반대로 한 상품도 여러번 주문 가능 -> 주문 상품 이라는 모델을 만들어 다대다 관계를 일대다, 다대일 관계로 풀어냄
 
 > 테이블 설계
-![[스크린샷 2023-03-13 오후 1.31.55.png]]
+
+| MEMBER | ORDERS | ORDER_ITEM | ITEM |
+| :---: |  :---: |  :---: |  :---: | 
+|MEMBER_ID | ORDER_ID | ORDER_ITEM_ID | ITEM_ID
+|NAME| MEMBER_ID(FK) | ORDER_ID(FK) | NAME
+|CITY | ORDERDATE | ITEM_ID (FK) | PRICE
+|STREET | STATUS | ORDERPRICE | STOCKQUANTITY
+|ZIPCODE | | |COUNT | |
+
 
 > 데이터 중심 설계의 문제점!!!
 - 위의 방식은 객체 설계를 테이블 설계에 맞춘 방식이야.
@@ -281,3 +289,76 @@ hibernate.hbm2ddl.auto  (persistence.xml에 적용)
 
 
 ##### 양방향 연관관계와 연관관계의 주인(중요!)
+
+> 객체와 테이블이 관계를 맺는 차이
+- 객체 연관 관계 = 2개
+	-  회원 -> 팀 연관관계 1개(단방향)
+	- 팀 -> 회원 연관관계 1개(단방향)
+- 테이블 연관관계 = 1개
+	-  회원 <-> 팀 연관관계 1개(양방향)
+
+> 테이블의 양방향 연관관계
+- 테이블은 외래 키(FK) 하나로 두 테이블의 연관관계를 관리한다.
+- MEMBER.TEAM_ID 외래키 하나로 양방향 연관관계를 가짐 (양쪽으로 쪼인 가능!)
+
+> **연관관계의 주인(Owner)**
+양방향 매핑 규칙
+- 객체의 두 관계중 하나를 연관관계의 주인으로 지정
+- **연관관계의 주인만이 외래 키를 관리(등록, 수정)
+- **주인이 아닌쪽은 읽기만 가능함
+- 주인은 mappedBy 속성 사용X (그럼 주인은 joinColumn을 사용하겠지 ?)
+- 주인이 아니면 mappedBy 속성으로 주인 지정함
+
+> **누구를 주인으로 할까 ???
+- **외래키**가 있는곳을 주인으로 정하셈.
+
+*객체 관계일때*
+| MEMBER |     | TEAM |  
+|:---:|-----|:---:|  
+| id |     | id |  
+| Team team |     | name |  
+| username |     | List members|
+
+*테이블 관계일때*
+| MEMBER |     | TEAM |  
+|:---:|-----|:---:|  
+| MEMBER_ID(PK) |     | TEAM_ID(PK) |  
+| TEAM_ID(FK) |     | NAME |  
+| USERNAME |     | |
+- 여기서는 MEMBER 테이블에 외래키(FK)가 있으니까 Member.team이 연관관계의 주인이라.
+  그럼 Member의 team에는 @JoinColumn , Team의 members는 mappedBy 사용하겠지 ??
+  1 : N 일경우 N쪽이 주인이 되어야해. 명심해.
+
+##### 양방향 매핑시 가장 많이하는 실수
+(연관관계의 주인에 값을 입력하지 않는 실수..)
+```
+Team team = new Team();
+team.setName("TeamA");
+em.persist(team);
+
+Member member = new Member();
+member.setName("member1");
+
+// 역방향(주인이 아닌 방향)만 연관관계 설정
+team.getMembers().add(member);
+
+*** member.setTeam(team) ***
+
+em.persist(member);
+```
+Member의 team이 주인일때,  member.team(주인)에 값을 주입 해줘야만 데이터 등록이 가능함.
+
+
+> 양방향 연관관계 주의
+- *순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자*  >>> 즉 주인만 해주지말고 둘다 값 넣어주자구~!
+- 연관관계 편의 메소드를 작성하다
+- 양방향 매핑시 무한루프를 *조심*하자 ex) toString(), lombok, JSON 생성 라이브러리
+
+#### 양방향 매핑 정리
+- 단방향 매핑만으로도 이미 연관관계 매핑은 완료.
+- 양방향 매핑은 반대 방향으로 조회(객체 그래프 탐색) 기능이 추가된 것 뿐
+- JPQL에서 역방향으로 탐색할 일이 많음
+- 단방향 매핑을 잘 하고 양방향은 필요할때 추가해도 됨(테이블에 영향을 주지 않음)
+
+연관관계의 주인을 정하는 기준은 >
+*연관관계의 주인은 외래키의 위치를 기준으로 정하라.*
