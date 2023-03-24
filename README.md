@@ -368,5 +368,12 @@ Member의 team이 주인일때,  member.team(주인)에 값을 주입 해줘야�
 ## 연관관계 매핑 시작해보기
 
 1. 테이블 구조일때
+<img width="433" alt="스크린샷 2023-03-24 오후 4 07 51" src="https://user-images.githubusercontent.com/88572442/227451824-2b813c93-798e-41b4-883d-d80788833e8a.png">
 
 2. 객체구조일때(참조를 사용하도록 변경)
+<img width="419" alt="스크린샷 2023-03-24 오후 4 07 45" src="https://user-images.githubusercontent.com/88572442/227451849-6254bac9-94d0-4ec9-a9f0-e364569096e2.png">
+
+
+
+
+
