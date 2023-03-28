@@ -1,9 +1,6 @@
 package practiceExample2;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Item {
@@ -12,6 +9,10 @@ public class Item {
     @GeneratedValue
     @Column(name = "ITEM_ID")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
     private String name;
     private int price;
     private int stockQuantity;
