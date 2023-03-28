@@ -368,10 +368,10 @@ Member의 team이 주인일때,  member.team(주인)에 값을 주입 해줘야�
 ### 연관관계 매핑 시작해보기
 > practiceExample2 패키지
 1. 테이블 구조일때
-   ![[스크린샷 2023-03-24 오후 4.07.51.png]]
+   <img width="433" alt="스크린샷 2023-03-24 오후 4 07 51" src="https://user-images.githubusercontent.com/88572442/227451824-2b813c93-798e-41b4-883d-d80788833e8a.png">
 
 2. 객체구조일때(참조를 사용하도록 변경)
-   ![[스크린샷 2023-03-24 오후 4.07.45.png]]
+   <img width="419" alt="스크린샷 2023-03-24 오후 4 07 45" src="https://user-images.githubusercontent.com/88572442/227451849-6254bac9-94d0-4ec9-a9f0-e364569096e2.png">
 
 
 ### 다양한 연관관계 매핑
@@ -400,11 +400,12 @@ Member의 team이 주인일때,  member.team(주인)에 값을 주입 해줘야�
 *가장 많이 사용 하는 연관 매핑~!*
 
 > 다대일 단방향
-![[스크린샷 2023-03-24 오후 4.47.01.png]]
+<img width="380" alt="스크린샷 2023-03-24 오후 4 47 01" src="https://user-images.githubusercontent.com/88572442/228167465-c97ddb97-f8b8-47a6-ac6b-fec8dc9200f8.png">
 1. Member의 Team team에 @ManyToOne 사용, @JoinColumn(name = "TEAM_ID")로 외래키 설정
 
 > 다대일 양방향
-![[스크린샷 2023-03-24 오후 4.52.46.png]]
+<img width="295" alt="스크린샷 2023-03-24 오후 4 52 46" src="https://user-images.githubusercontent.com/88572442/228167489-0f7e1e0c-06aa-49e5-b406-3fdb1f0dce83.png">
+
 1. Member의 Team team에 @ManyToOne 사용
 2. @JoinColumn(name = "TEAM_ID")로 외래키 설정(주인)
 3. Team의 List members에 @OneToMany(*mappedBy = "MEMBER_ID"*) 사용
@@ -415,7 +416,6 @@ Member의 team이 주인일때,  member.team(주인)에 값을 주입 해줘야�
 #### 일대다 [1:N]
 > 일대다 단방향
 <img width="276" alt="스크린샷 2023-03-28 오후 1 55 39" src="https://user-images.githubusercontent.com/88572442/228166286-22b9e602-4e4c-489a-8d9d-a9c62415b54e.png">
-
 <!--Team을  중심으로 연관관계 성립 그러나 위의 그림은 추천하지 않음. 연관관계 주인을 다 쪽으로 가져가자-->
 <!-- 일대다 단방향으로 연관관계 매핑을 하는것보단 다대일 양방향 매핑이 더욱 쓰임새가 좋다.-->
 ###### 일대다 단방향 정리
